@@ -23,82 +23,83 @@ public class AdminAuthController {
 
 	@Autowired
 	AdminsRepository repository;
-	
+
 	final String TAG = "Admin";
-	
-	@PostMapping(path= "/login")
+
+	@PostMapping(path = "/login")
 	public Response<Admins> loginAdmin(@RequestParam String email, @RequestParam String password) {
 
 		Date date = new Date();
-		
+		System.out.println(email);
+		System.out.println(password);
 		Admins admin = repository.findByEmailAndPassword(email, password).get();
-		if(!admin.getFullName().isEmpty()) {
-			return new Response<Admins>(101, TAG+" Logged In Successfully at "+date, null);
-		}else {
-			return new Response<Admins>(201, TAG+" Authentication Failed at "+date, null);
+		System.out.println(admin);
+		if (!admin.getFullName().isEmpty()) {
+			return new Response<Admins>(101, TAG + " Logged In Successfully at " + date, null);
+		} else {
+			return new Response<Admins>(201, TAG + " Authentication Failed at " + date, null);
 		}
-		
+
 	}
-	
-	@PostMapping(path= "/add")
-	public Response<Admins> addAdmin(@RequestParam String email, @RequestParam String password, @RequestParam String fullName, @RequestParam Integer loginType) {
+
+	@PostMapping(path = "/add")
+	public Response<Admins> addAdmin(@RequestParam String email, @RequestParam String password,
+			@RequestParam String fullName, @RequestParam Integer loginType) {
 		Date date = new Date();
-		
+
 		Admins admin = new Admins(null, email, password, fullName, loginType, date);
 		repository.save(admin);
-		
-		return new Response<Admins>(101, TAG+" Saved Successfully at "+date, null);
-		
+
+		return new Response<Admins>(101, TAG + " Saved Successfully at " + date, null);
+
 	}
-	
-	@GetMapping(path="/get")
-	public Response<Admins> getAdmins(){
-		
+
+	@GetMapping(path = "/get")
+	public Response<Admins> getAdmins() {
+
 		ArrayList<Admins> list = new ArrayList<Admins>();
 		repository.findAll().forEach((admin) -> list.add(admin));
-		
+
 		Date date = new Date();
-		return new Response<Admins>(101, list.size()+" "+TAG+"s Fetched Successfully at "+date, list);
-		
+		return new Response<Admins>(101, list.size() + " " + TAG + "s Fetched Successfully at " + date, list);
+
 	}
-	
 
 	@GetMapping(path = "/get/{id}")
-	public Response<Admins> getAdminById(@PathVariable("id") Integer id){
-		
+	public Response<Admins> getAdminById(@PathVariable("id") Integer id) {
+
 		ArrayList<Admins> list = new ArrayList<Admins>();
 		Admins admin = repository.findById(id).get();
 		list.add(admin);
-		
-		Date date = new Date();
-		return new Response<Admins>(101, TAG+" Fetched Successfully at "+date, list);
-		
-	}
-	
-	@PostMapping(path= "/update")
-	public Response<Admins> updateAdmin(@RequestParam Integer adminId, @RequestParam String email, @RequestParam String password, @RequestParam String fullName, @RequestParam Integer loginType) {
 
-		
 		Date date = new Date();
-		
+		return new Response<Admins>(101, TAG + " Fetched Successfully at " + date, list);
+
+	}
+
+	@PostMapping(path = "/update")
+	public Response<Admins> updateAdmin(@RequestParam Integer adminId, @RequestParam String email,
+			@RequestParam String password, @RequestParam String fullName, @RequestParam Integer loginType) {
+
+		Date date = new Date();
+
 		Admins admin = new Admins(adminId, email, password, fullName, loginType, date);
 		repository.save(admin);
-		
-		return new Response<Admins>(101, TAG+" Updated Successfully at "+date, null);
-		
+
+		return new Response<Admins>(101, TAG + " Updated Successfully at " + date, null);
+
 	}
-	
+
 	@GetMapping(path = "/delete/{id}")
-	public Response<Admins> deleteAdmin(@PathVariable("id") Integer id){
-		
+	public Response<Admins> deleteAdmin(@PathVariable("id") Integer id) {
+
 		Admins admin = new Admins();
 		admin.setAdminId(id);
 		repository.delete(admin);
-		
+
 		Date date = new Date();
-		return new Response<Admins>(101, TAG+" Deleted Successfully at "+date, null);
-		
+		return new Response<Admins>(101, TAG + " Deleted Successfully at " + date, null);
+
 	}
-	
-	
+
 }
