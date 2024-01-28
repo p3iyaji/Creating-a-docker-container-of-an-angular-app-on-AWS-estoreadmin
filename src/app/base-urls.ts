@@ -1,6 +1,6 @@
 export class BaseUrls {
 
-  public static readonly BASE_HREF: string = "http://localhost:8080";
+  public static readonly BASE_HREF: string = "http://18.206.195.251:8080";
 
   public static readonly ADMIN_GROUPURL: string = "adminauth";
   public static readonly USER_GROUPURL: string = "users";
@@ -17,5 +17,5 @@ export class BaseUrls {
   public static getUpdateUrl(key: string): string { return `${this.BASE_HREF}/${key}/update`;}
   public static getDeleteUrl(key: string): string { return `${this.BASE_HREF}/${key}/delete`;}
   public static getLoginUrl(key: string): string { return `${this.BASE_HREF}/${key}/login`;}
-  
+
 }
